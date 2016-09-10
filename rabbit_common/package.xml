@@ -4,7 +4,7 @@
   <version>1.0.0</version>
 
   <description>
-    The "rabbit_common" provides basic functionarities for the robot audition library (rabbit).
+    The "rabbit_common" provides basic functionarities such as captureing, playbacking, and saving audio signals.
   </description>
 
   <maintainer email="yoshiaki@kuis.kyoto-u.ac.jp">Yoshiaki Bando</maintainer>
