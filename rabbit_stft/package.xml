@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <name>rabbit_stft</name>
+  <version>1.0.0</version>
+
+  <description>
+    This package provides a stft functions based on FFTW3.
+  </description>
+
+  <maintainer email="yoshiaki@kuis.kyoto-u.ac.jp">Yoshiaki Bando</maintainer>
+  <license>GPL</license>
+
+  <url type="website">TODO</url>
+  <author email="yoshiaki@kuis.kyoto-u.ac.jp">Yoshiaki Bando</author>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>rabbit_msgs</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>rabbit_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+</package>
