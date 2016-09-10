@@ -5,4 +5,4 @@ License
 -----------------------------------
 
  * `rabbit_stft`: GPL
- * other packages: MIT
+ * `other packages`: MIT
