@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name>rabbit_rqt_plugins</name>
+  <version>1.0.0</version>
+  <description>
+    This package provides visualization functions.
+  </description>
+
+  <maintainer email="yoshiaki@kuis.kyoto-u.ac.jp">Yoshiaki Bando</maintainer>
+
+  <license>MIT</license>
+
+  <author email="yoshiaki@kuis.kyoto-u.ac.jp">Yoshiaki Bando</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>std_msgs</build_depend>
+  <build_depend>rabbit_msgs</build_depend>
+
+  <run_depend>message_runtime</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>rabbit_msgs</run_depend>
+
+  <export>
+    <rqt_gui plugin="${prefix}/plugin.xml" />
+  </export>
+</package>

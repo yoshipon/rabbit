@@ -1,0 +1,20 @@
+<library path="scripts">
+  <class name="Spectrogram"
+	 type="spectrum_visualization.spectrogram.SpectrogramPlugin"
+	 base_class_type="rqt_gui_py::Plugin">
+    <description>
+      A spectrogram visualizer.
+    </description>
+    <qtgui>
+      <group>
+	<label>Robot Audition Library</label>
+	<icon type="theme">folder</icon>
+        <statustip></statustip>
+      </group>
+
+      <label>Spectrogram</label>
+      <icon type="theme">system-help</icon>
+      <statustip></statustip>
+    </qtgui>
+  </class>
+</library>
