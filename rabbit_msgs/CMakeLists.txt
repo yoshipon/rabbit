@@ -44,6 +44,7 @@ add_message_files(
   FILES
   Audio.msg
   Spectrum.msg
+  Spectrogram.msg
 )
 
 ## Generate services in the 'srv' folder

@@ -7,7 +7,7 @@
     </description>
     <qtgui>
       <group>
-	<label>Robot Audition Library</label>
+	<label>Rabbit</label>
 	<icon type="theme">folder</icon>
         <statustip></statustip>
       </group>
