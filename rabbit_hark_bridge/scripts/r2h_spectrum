@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from __future__ import division
+
+import sys
+
+from numpy import *  # noqa
+import scikits.audiolab as al
+
+import pyaudio
+
+import rospy
+from rabbit_msgs.msg import Spectrum
+
+from hark_msgs.msg import HarkFFT, HarkFFTVal
+
+
+if __name__ == '__main__':
+    rospy.init_node("r2h_spectrum", anonymous=True)
+
+    hark_fft_pub = rospy.Publisher("hark_fft", HarkFFT, queue_size=300)
+
+    hark_fft_msg = HarkFFT()
+    def callback(spec_msg):
+        hark_fft_msg.header = spec_msg.header
+        hark_fft_msg.nch = spec_msg.nch
+        hark_fft_msg.length = spec_msg.nfreq
+
+        data = array(spec_msg.data)
+        data.resize([spec_msg.nch, spec_msg.nfreq, 2])
+
+        src = []
+        for m in range(hark_fft_msg.nch):
+            src.append(HarkFFTVal(fftdata_real=data[m, :, 0], fftdata_imag=data[m, :, 1]))
+
+        hark_fft_msg.src = src
+        hark_fft_pub.publish(hark_fft_msg)
+        
+    spectrum_sub = rospy.Subscriber("spectrum", Spectrum, callback, queue_size=300)
+
+    rospy.spin()

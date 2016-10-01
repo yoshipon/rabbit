@@ -17,7 +17,7 @@ from hark_msgs.msg import HarkFFT
 
 
 if __name__ == '__main__':
-    rospy.init_node("h2r_spectrum")
+    rospy.init_node("h2r_spectrum", anonymous=True)
 
     spec_pub = rospy.Publisher("spectrum", Spectrum, queue_size=100)
 
