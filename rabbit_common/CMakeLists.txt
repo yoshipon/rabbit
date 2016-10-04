@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rabbit_common)
 
-add_definitions("-std=c++11 -O2 -march=native -msse4.2")
+add_definitions("-std=c++11 -O2 -march=native")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
