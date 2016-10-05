@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rabbit_common)
 
-add_definitions("-std=c++11 -O2 -march=native")
+add_definitions("-std=c++11 -O3 -march=native")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -125,6 +125,9 @@ include_directories(include ${catkin_INCLUDE_DIRS} /opt/eigen-3.2.8 /usr/include
 ## Declare a C++ executable
 add_executable(alsa src/alsa.cpp)
 target_link_libraries(alsa ${catkin_LIBRARIES} asound)
+
+add_executable(spectrogram2spectrum src/spectrogram2spectrum.cpp)
+target_link_libraries(spectrogram2spectrum ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
