@@ -23,6 +23,10 @@ class ChannelSelectorNode
 {
   ros::Subscriber spec_sub;
   ros::Publisher spec_pub;
+
+  rabbit_msgs::Spectrum spec_msg;
+
+  vector<int> list_ch;
   
 public:
   ChannelSelectorNode(int argc, char *argv[])
@@ -30,22 +34,27 @@ public:
     ros::init(argc, argv, "channel_selector");
     ros::NodeHandle n;
 
-    spec_pub = n.advertise<rabbit_msgs::Spectrum>("spec_in", 100);
-    spec_sub = n.subscribe("spec_out", 100, &ChannelSelectorNode::spectrogram_callback, this);
+    ros::param::param<vector<int>>("~list_ch", list_ch, {0});
+
+    spec_pub = n.advertise<rabbit_msgs::Spectrum>("spec_out", 100);
+    spec_sub = n.subscribe("spec_in", 100, &ChannelSelectorNode::spectrogram_callback, this);
+
+    spec_msg.nch = list_ch.size();
   }
 
   void spectrogram_callback(const rabbit_msgs::Spectrum::ConstPtr &msg)
   {
-    // Map<const ArrayXXcf> spec((complex<float>*)msg->data.data(), msg->nfreq, msg->len);
-    // amp_spec = spec.abs();
+    Map<const ArrayXXcf> spec_in((complex<float>*)msg->data.data(), msg->nfreq, msg->nch);
 
-    // median_filter(amp_spec, enhanced_amp_spec, height, width);
+    spec_msg.nfreq = msg->nfreq;
+    spec_msg.data.resize(2 * spec_msg.nch * msg->nfreq);
 
-    // Map<ArrayXXcf> spec_out((complex<float>*)enhanced_spectrogram_msg.data.data(),
-    // 			    n_freq, n_batch);
-    // spec_out = enhanced_amp_spec * spec / (amp_spec + EPS);
+    Map<ArrayXXcf> spec_out((complex<float>*)spec_msg.data.data(), spec_msg.nfreq, spec_msg.nch);
+    for (int m=0;m<list_ch.size();m++) {
+      spec_out.col(m) = spec_in.col(list_ch[m]);
+    }
 
-    // enhanced_spectrogram_pub.publish(enhanced_spectrogram_msg);
+    spec_pub.publish(spec_msg);
   }
 };
 
