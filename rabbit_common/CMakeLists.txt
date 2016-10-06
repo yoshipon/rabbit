@@ -125,12 +125,15 @@ include_directories(include ${catkin_INCLUDE_DIRS} /opt/eigen-3.2.8 /usr/include
 ## Declare a C++ executable
 add_executable(alsa src/alsa.cpp)
 target_link_libraries(alsa ${catkin_LIBRARIES} asound)
+add_dependencies(alsa rabbit_common_generate_messages rabbit_msgs_generate_messages ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(channel_selector src/channel_selector.cpp)
 target_link_libraries(channel_selector ${catkin_LIBRARIES})
+add_dependencies(channel_selector rabbit_msgs_generate_messages ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(spectrogram2spectrum src/spectrogram2spectrum.cpp)
 target_link_libraries(spectrogram2spectrum ${catkin_LIBRARIES})
+add_dependencies(spectrogram2spectrum rabbit_msgs_generate_messages ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above

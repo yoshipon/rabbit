@@ -127,9 +127,11 @@ include_directories(include ${catkin_INCLUDE_DIRS} /opt/eigen-3.2.8 /usr/include
 ## Declare a C++ executable
 add_executable(stft src/stft.cpp)
 target_link_libraries(stft ${catkin_LIBRARIES} fftw3f)
+add_dependencies(stft rabbit_msgs_generate_messages ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(istft src/istft.cpp)
 target_link_libraries(istft ${catkin_LIBRARIES} fftw3f)
+add_dependencies(istft rabbit_msgs_generate_messages ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
