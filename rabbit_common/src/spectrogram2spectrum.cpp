@@ -42,6 +42,9 @@ public:
     spec_msg.data.resize(2 * F * M);
     Map<ArrayXXcf> spec((complex<float>*)spec_msg.data.data(), F, M);
     for (int t=0;t<T;t++) {
+      if (t > 0 && t % 5 == 0) {
+	ros::Duration(0.02).sleep();
+      }
       spec = Map<const ArrayXXcf>((complex<float>*)msg->data.data() + t * F * M, F, M);
 
       spectrum_pub.publish(spec_msg);
