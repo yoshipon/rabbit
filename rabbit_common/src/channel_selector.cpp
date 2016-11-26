@@ -34,7 +34,7 @@ public:
     ros::init(argc, argv, "channel_selector");
     ros::NodeHandle n;
 
-    ros::param::param<vector<int>>("~list_ch", list_ch, {0});
+    ros::param::param<vector<int>>("~ch_list", list_ch, {0});
 
     spec_pub = n.advertise<rabbit_msgs::Spectrum>("spec_out", 100);
     spec_sub = n.subscribe("spec_in", 100, &ChannelSelectorNode::spectrogram_callback, this);

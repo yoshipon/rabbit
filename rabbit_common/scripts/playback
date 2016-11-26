@@ -21,6 +21,7 @@ if __name__ == '__main__':
     n_frame = rospy.get_param("~n_frame", 512)
     fname = rospy.get_param("~fname", "")
     gain = rospy.get_param("~gain", 20)
+    ch = rospy.get_param("~ch", 0)
 
     rospy.loginfo("Step length: %d" % n_step)
     rospy.loginfo("Frame length: %d" % n_frame)
@@ -35,7 +36,7 @@ if __name__ == '__main__':
                      input_device_index=9)
 
     def callback(data):
-        wav = array(data.data).reshape([data.len, data.nch])[:n_step, -1] * gain
+        wav = array(data.data).reshape([data.len, data.nch])[:n_step, ch] * gain
 
         stream.write(wav.astype(float32).tostring())
         

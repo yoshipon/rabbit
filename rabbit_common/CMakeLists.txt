@@ -135,6 +135,10 @@ add_executable(spectrogram2spectrum src/spectrogram2spectrum.cpp)
 target_link_libraries(spectrogram2spectrum ${catkin_LIBRARIES})
 add_dependencies(spectrogram2spectrum rabbit_msgs_generate_messages ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_executable(spectrum2spectrogram src/spectrum2spectrogram.cpp)
+target_link_libraries(spectrum2spectrogram ${catkin_LIBRARIES})
+add_dependencies(spectrum2spectrogram rabbit_msgs_generate_messages ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(rabbit_common_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
