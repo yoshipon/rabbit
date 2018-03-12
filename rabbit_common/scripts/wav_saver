@@ -6,7 +6,8 @@ from __future__ import division
 import sys
 
 from numpy import *  # noqa
-import scikits.audiolab as al
+# import scikits.audiolab as al
+import soundfile as snd
 
 import pyaudio
 
@@ -19,22 +20,20 @@ if __name__ == '__main__':
 
     n_step = rospy.get_param("~n_step", 160)
     n_frame = rospy.get_param("~n_frame", 512)
-    fname = rospy.get_param("~fname", "")
+    fname = rospy.get_param("~fname", "record.wav")
     gain = rospy.get_param("~gain", 20)
+    n_ch = rospy.get_param("~n_ch", 1)
 
     rospy.loginfo("Step length: %d" % n_step)
     rospy.loginfo("Frame length: %d" % n_frame)
     rospy.loginfo("Wave file name: %s" % fname)
 
-
-    def callback(data):
-        if callback.wav is None:
-            callback.wav = zeros([1, data.nch])
-        callback.wav = r_[callback.wav, array(data.data).reshape([data.len, data.nch])[:n_step]]
-    callback.wav = None
+    with snd.SoundFile(fname, 'w', 16000, n_ch, 'PCM_24') as f:
+        def callback(data):
+            f.write(array(data.data).reshape([data.len, data.nch])[:n_step])
         
-    audio_sub = rospy.Subscriber("audio", Audio, callback, queue_size=500)
+        audio_sub = rospy.Subscriber("audio", Audio, callback, queue_size=500)
 
-    rospy.spin()
+        rospy.spin()
 
-    al.wavwrite(callback.wav, sys.argv[1], fs=16000, enc="pcm24")
+    # al.wavwrite(callback.wav, sys.argv[1], fs=16000, enc="pcm24")

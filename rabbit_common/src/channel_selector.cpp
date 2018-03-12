@@ -9,22 +9,19 @@
 
 #include <Eigen/Dense>
 
-#include <sndfile.hh>
-#include <fftw3.h>
-
 #include <ros/ros.h>
 
-#include <rabbit_msgs/Spectrum.h>
+#include <rabbit_msgs/Audio.h>
 
 using namespace Eigen;
 using namespace std;
 
 class ChannelSelectorNode
 {
-  ros::Subscriber spec_sub;
-  ros::Publisher spec_pub;
+  ros::Subscriber audio_sub;
+  ros::Publisher audio_pub;
 
-  rabbit_msgs::Spectrum spec_msg;
+  rabbit_msgs::Audio audio_msg;
 
   vector<int> list_ch;
   
@@ -35,33 +32,34 @@ public:
     ros::NodeHandle n;
 
     ros::param::param<vector<int>>("~ch_list", list_ch, {0});
+    std::cout << Map<MatrixXi>(list_ch.data(), 1, list_ch.size()) << std::endl;
 
-    spec_pub = n.advertise<rabbit_msgs::Spectrum>("spec_out", 100);
-    spec_sub = n.subscribe("spec_in", 100, &ChannelSelectorNode::spectrogram_callback, this);
 
-    spec_msg.nch = list_ch.size();
+    audio_pub = n.advertise<rabbit_msgs::Audio>("audio_out", 100);
+    audio_sub = n.subscribe("audio_in", 100, &ChannelSelectorNode::audio_callback, this);
+
+    audio_msg.nch = list_ch.size();
   }
 
-  void spectrogram_callback(const rabbit_msgs::Spectrum::ConstPtr &msg)
+  void audio_callback(const rabbit_msgs::Audio::ConstPtr &msg)
   {
-    Map<const ArrayXXcf> spec_in((complex<float>*)msg->data.data(), msg->nfreq, msg->nch);
+    Map<const ArrayXXf> audio_in((float*)msg->data.data(), msg->nch, msg->len);
 
-    spec_msg.nfreq = msg->nfreq;
-    spec_msg.data.resize(2 * spec_msg.nch * msg->nfreq);
+    audio_msg.len = msg->len;
+    audio_msg.data.resize(audio_msg.nch * msg->len);
 
-    Map<ArrayXXcf> spec_out((complex<float>*)spec_msg.data.data(), spec_msg.nfreq, spec_msg.nch);
+    Map<ArrayXXf> audio_out((float*)audio_msg.data.data(), audio_msg.nch, audio_msg.len);
     for (int m=0;m<list_ch.size();m++) {
-      spec_out.col(m) = spec_in.col(list_ch[m]);
+      audio_out.row(m) = audio_in.row(list_ch[m]);
     }
 
-    spec_pub.publish(spec_msg);
+    audio_pub.publish(audio_msg);
   }
 };
 
 int main(int argc, char *argv[])
 {
   Eigen::initParallel();
-  srand((unsigned int) time(0));
 
   ChannelSelectorNode mpn(argc, argv);
   ros::spin();

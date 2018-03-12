@@ -110,7 +110,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include ${catkin_INCLUDE_DIRS} /opt/eigen-3.2.8 /usr/include/eigen3)
+include_directories(include ${catkin_INCLUDE_DIRS} ../eigen-3.3.4 /usr/include/eigen3)
 
 ## Declare a C++ library
 # add_library(rabbit_common
